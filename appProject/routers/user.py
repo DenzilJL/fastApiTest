@@ -5,10 +5,10 @@ from sqlalchemy.orm import Session
 from .. import models, schema, utilis
 from ..database import get_db
 
-router = APIRouter()
+router = APIRouter(prefix='/users')
 
 
-@router.get("/users", response_model=List[schema.UserResp])
+@router.get("/", response_model=List[schema.UserResp])
 async def getUsers(response: Response, db: Session = Depends(get_db)):
     result = db.query(models.User).all()
 
@@ -22,7 +22,7 @@ async def getUsers(response: Response, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="zero record found")
 
 
-@router.post("/users", response_model=schema.UserResp)
+@router.post("/", response_model=schema.UserResp)
 async def createUser(newUser: schema.User, response: Response, db: Session = Depends(get_db)):
     # Hash password
     newUser.password = utilis.passwordHash(newUser.password)
@@ -37,7 +37,7 @@ async def createUser(newUser: schema.User, response: Response, db: Session = Dep
     # return {"data": inserted_post}
 
 
-@router.get("/users/{id}", response_model=schema.UserResp)
+@router.get("/{id}", response_model=schema.UserResp)
 async def getUser(id: int, response: Response, db: Session = Depends(get_db)):
     result = db.query(models.User).filter(models.User.id == id).first()
 
@@ -51,7 +51,7 @@ async def getUser(id: int, response: Response, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="zero record found")
 
 
-@router.put("/users/{id}")
+@router.put("/{id}")
 async def putUpdateUser(id: int, updatedUser: schema.User, response: Response, db: Session = Depends(get_db)):
     updated_user_record = db.query(models.User).filter(
         models.User.id == id)
@@ -67,7 +67,7 @@ async def putUpdateUser(id: int, updatedUser: schema.User, response: Response, d
                             detail="element not found")
 
 
-@router.delete("/users/{id}")
+@router.delete("/{id}")
 async def deleteUser(id: int, response: Response, db: Session = Depends(get_db)):
     delete_user_record = db.query(models.User).filter(models.User.id == id)
     if delete_user_record.first():
