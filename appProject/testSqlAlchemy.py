@@ -4,13 +4,13 @@ from typing import Optional, List
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from . import models, schema
+from . import models, schema, utilis
 from .database import engine, SessionLocal, get_db
 
 models.Base.metadata.create_all(bind=engine)
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
 app = FastAPI()
 
 
@@ -128,7 +128,7 @@ async def getUsers(response: Response, db: Session = Depends(get_db)):
 @app.post("/users", response_model=schema.UserResp)
 async def createUser(newUser: schema.User, response: Response, db: Session = Depends(get_db)):
     # Hash password
-    newUser.password = pwd_context.hash(newUser.password)
+    newUser.password = utilis.passwordHash(newUser.password)
     inserted_user = models.User(**newUser.dict())
     '''inserted_user = models.User(
         title=newUser.title, description=newUser.description, published=newUser.published)'''
