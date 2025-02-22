@@ -139,7 +139,7 @@ vfastApi/
 # Spyder project settings
 .spyderproject
 .spyproject
-
+cred.txt
 # Rope project settings
 .ropeproject
 
