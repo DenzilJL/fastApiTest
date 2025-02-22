@@ -135,7 +135,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+vfastApi/
 # Spyder project settings
 .spyderproject
 .spyproject
