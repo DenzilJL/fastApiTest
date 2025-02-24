@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from typing import List
-import time
 from sqlalchemy.orm import Session
 from .. import models, schema, utilis
 from ..database import get_db
@@ -79,3 +78,7 @@ async def deleteUser(id: int, response: Response, db: Session = Depends(get_db))
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="element not found")
+
+
+
+
