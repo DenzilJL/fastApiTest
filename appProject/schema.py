@@ -1,5 +1,5 @@
 
-from pydantic import BaseModel
+from pydantic import BaseModel,EmailStr
 from datetime import datetime
 
 
@@ -19,7 +19,7 @@ class PostResp (Post):
 
 class UserBase (BaseModel):
     user_name: str
-    email: str
+    email: EmailStr
 
     active: bool = True
 
@@ -34,3 +34,7 @@ class UserResp (UserBase):
 
     class Config:
         orm = True
+
+class UserLogin (BaseModel):
+    email: EmailStr
+    password: str
