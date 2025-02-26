@@ -24,8 +24,8 @@ async def loginUser(response: Response, userCredential: OAuth2PasswordRequestFor
             return {"token": access_token}
         else:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credential")
+                status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credential")
 
     else:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credential")
+            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credential")

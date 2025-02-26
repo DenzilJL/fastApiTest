@@ -2,14 +2,14 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from typing import Optional, List
 import time
 from sqlalchemy.orm import Session
-from .. import models, schema, utilis
+from .. import models, schema, utilis, oauth2
 from ..database import get_db
 
 router = APIRouter(prefix='/posts', tags=["Posts Request"])
 
 
 @router.get("/", response_model=List[schema.PostResp])
-async def getPost(response: Response, db: Session = Depends(get_db)):
+async def getPost(response: Response, db: Session = Depends(get_db), get_current_user: int = Depends(oauth2.get_current_user)):
     result = db.query(models.Post).all()
 
     if len(result) > 0:

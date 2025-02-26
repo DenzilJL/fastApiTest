@@ -1,5 +1,5 @@
 
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
 
@@ -35,6 +35,16 @@ class UserResp (UserBase):
     class Config:
         orm = True
 
+
 class UserLogin (BaseModel):
     email: EmailStr
     password: str
+
+
+class Token (BaseModel):
+    access_token: str
+    token_tyoe: str
+
+
+class TokenData (BaseModel):
+    id: int
