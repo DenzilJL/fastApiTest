@@ -3,20 +3,6 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
 
-class Post (BaseModel):
-    title: str
-    description: str
-    published: bool = True
-
-
-class PostResp (Post):
-    id: int
-    created_at: datetime
-
-    class Config:
-        orm = True
-
-
 class UserBase (BaseModel):
     user_name: str
     email: EmailStr
@@ -48,3 +34,19 @@ class Token (BaseModel):
 
 class TokenData (BaseModel):
     id: int
+
+
+class Post (BaseModel):
+    title: str
+    description: str
+    published: bool = True
+    owner_id: int
+
+
+class PostResp (Post):
+    id: int
+    created_at: datetime
+    owner: UserBase
+
+    class Config:
+        orm = True
