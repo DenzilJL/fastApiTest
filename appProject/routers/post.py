@@ -9,9 +9,14 @@ router = APIRouter(prefix='/posts', tags=["Posts Request"])
 
 
 @router.get("/", response_model=List[schema.PostResp])
-async def getPost(response: Response, db: Session = Depends(get_db), get_current_user: int = Depends(oauth2.get_current_user)):
-    result = db.query(models.Post).all()
+async def getPost(response: Response, db: Session = Depends(get_db), get_current_user: int = Depends(oauth2.get_current_user), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
+    result = db.query(models.Post).limit(limit).all()  # limit query parameter
+    result = db.query(models.Post).limit(limit).offset(
+        skip).all()  # skip  query parameter
 
+    result = db.query(models.Post).filter(
+        # search  query parameter
+        models.Post.title.contains(search)).limit(limit).offset(skip).all()
     if len(result) > 0:
 
         response.status_code = status.HTTP_200_OK
